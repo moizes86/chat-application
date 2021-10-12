@@ -1,0 +1,30 @@
+@import '../styles.scss';
+
+.input-profile-picture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .bi-person-circle {
+    font-size: 100px;
+  }
+
+  .bi-trash:hover{
+    @include hover-effect;
+  }
+
+  input{
+      display: none;
+  }
+
+  img {
+    border-radius: 100%;
+    height: 100px;
+    width:100px;
+    margin: 25px auto;
+  }
+
+  label:hover {
+    cursor: pointer;
+  }
+}

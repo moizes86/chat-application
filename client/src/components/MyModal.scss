@@ -1,0 +1,16 @@
+@import "../styles.scss";
+.modal-header {
+  justify-content: flex-end;
+
+  i:hover {
+    @include hover-effect;
+  }
+}
+
+.modal-body{
+    padding:2rem;
+
+    a{
+        text-decoration: none;
+    }
+}

@@ -1,0 +1,16 @@
+// Variables
+$custom-form-with: 320px;
+
+// Mixins
+@mixin hover-effect {
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+*{
+    transition: 0.2s;
+}
+
+.pointer{
+    cursor: pointer;
+}
