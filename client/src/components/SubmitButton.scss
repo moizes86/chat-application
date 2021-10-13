@@ -1,0 +1,14 @@
+@import "../styles.scss";
+
+.submit-button {
+  button {
+    background-color: $color-blue-300;
+    width:100%;
+    transition: 0.2s;
+
+    &:hover{
+        @include hover-effect;
+    }
+  }
+
+}

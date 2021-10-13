@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import useForm from "../hooks/useForm";
 import useFetch from "../hooks/useFetch";
 //
-import { sendEmailVerification, signup } from "../DAL/users";
+import { signup } from "../DAL/users";
 import { Link } from "react-router-dom";
 //
 //
@@ -52,17 +52,19 @@ function Signup() {
   }
 
   return (
-    <div className="signup">
+    <div className="signup user-access-form">
+      <h3>Signup</h3>
       <form onSubmit={onSubmitSignup}>
         {loading && <Spinner />}
         <InputField
           inputType="email"
           label="Email:"
-          placeholder="Enter email address"
+          placeholder="Email"
           name="email"
           id="email"
           value={values.email}
           validationError={validationErrors.email}
+          icon="bi bi-at"
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -74,6 +76,7 @@ function Signup() {
           placeholder="Select username"
           value={values.username}
           validationError={validationErrors.username}
+          icon="bi bi-person"
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -85,6 +88,7 @@ function Signup() {
           placeholder="Enter password"
           value={values.password}
           validationError={validationErrors.password}
+          icon="bi bi-lock"
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -96,6 +100,7 @@ function Signup() {
           placeholder="Confirm password"
           value={values.confirmPassword}
           validationError={validationErrors.confirmPassword}
+          icon="bi bi-lock"
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
@@ -103,6 +108,10 @@ function Signup() {
         <InputProfilePicture handleChange={handleChange} profilePic={values.profilePic} />
 
         <SubmitButton btnText="Signup" />
+
+        <p className="text-center">
+          Member? <Link to="/login">Login</Link>
+        </p>
 
         <SubmitErrorMessage errorMessage={requestError.message} />
 

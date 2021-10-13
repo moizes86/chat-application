@@ -41,7 +41,8 @@ function Login() {
     }
   }
   return (
-    <div className="login">
+    <div className="login user-access-form">
+      <h3>Login</h3>
       {loading && <Spinner />}
       <form onSubmit={onSubmitLogin}>
         <InputField
@@ -50,6 +51,7 @@ function Login() {
           label="Email:"
           name="email"
           validationError={validationErrors.email}
+          icon="bi bi-at"
           placeholder="Please enter a valid Email address"
           handleChange={handleChange}
           handleBlur={handleBlur}
@@ -62,11 +64,17 @@ function Login() {
           name="password"
           validationError={validationErrors.password}
           placeholder="Please enter your password"
+          icon="bi bi-lock"
           handleChange={handleChange}
           handleBlur={handleBlur}
         />
 
         <SubmitButton btnText="Login" />
+
+        <p className="text-center">
+          Not a member? <Link to="/signup">Signup</Link>
+        </p>
+
         <SubmitErrorMessage errorMessage={requestError.message}>
           {requestError.needsVerification && (
             <div className="text-center">

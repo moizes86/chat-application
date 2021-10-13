@@ -1,8 +1,9 @@
 import React from "react";
+import "./SubmitErrorMessage.scss";
 
 function SubmitErrorMessage({errorMessage, children}) {
   return (
-    <div className="text-danger">
+    <div className="submit-error-message">
       <p className="text-center">{errorMessage}</p>
       {children}
     </div>

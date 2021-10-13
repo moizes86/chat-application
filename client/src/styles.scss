@@ -1,16 +1,31 @@
 // Variables
 $custom-form-with: 320px;
+$color-blue-50: #e3f2fd;
+$color-blue-100: #bbdefb;
+$color-blue-300: #64b5f6;
+$color-blue-500: #2196f3;
+$color-blue-700: #1976d2;
+$color-blue-900: #0d47a1;
 
 // Mixins
 @mixin hover-effect {
-    cursor: pointer;
-    opacity: 0.5;
+  cursor: pointer;
+  opacity: 0.7;
 }
 
-*{
-    transition: 0.2s;
+.pointer {
+  cursor: pointer;
 }
 
-.pointer{
-    cursor: pointer;
+.user-access-form {
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+  border-top: 5px solid $color-blue-300;
+  padding: 17px;
+  width: fit-content;
+  margin: 30px auto;
+
+  h3 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
 }

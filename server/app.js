@@ -1,26 +1,15 @@
-var createError = require("http-errors");
-var express = require("express");
+const express = require("express");
+const app = express();
 var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+const port = process.env.PORT || "3100";
 const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-
-dotenv.config();
-mongoose.connect(process.env.DB_ACCESS, () => console.log(mongoose.connection.readyState)).catch((err) => console.log(err));
-var app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "jade");
+var logger = require("morgan");
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/users");
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
@@ -29,24 +18,19 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+dotenv.config();
+mongoose
+  .connect(process.env.DB_ACCESS, () =>
+    console.log(mongoose.connection.readyState === 1 ? "MongoDB Connected": 'Error connecting to database')
+  )
+  .catch((err) => console.log(err));
+
+app.listen(port, () => {
+  console.log(`Server connected. Listening at http://localhost:${port}`);
 });
-
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
-});
-
-module.exports = app;

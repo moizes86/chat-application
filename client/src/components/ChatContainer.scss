@@ -1,0 +1,63 @@
+@import "../styles.scss";
+
+.chat-container {
+  display: grid;
+  grid-template-rows: 80px auto 80px;
+  height: 100%;
+
+  .chat-header {
+    .left-side {
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .chat-main {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+
+    .side-bar {
+      background-color: $color-blue-500;
+      padding: 20px;
+
+      .room-name {
+        i {
+          color: $color-blue-900;
+        }
+        i:last-of-type {
+          font-size: small;
+          color: $color-blue-50;
+          margin-left: -5px;
+          margin-right: 5px;
+
+          &::before {
+            transform: rotateY(180deg);
+          }
+        }
+      }
+    }
+
+    .chat {
+      padding: 20px;
+      border-right: 10px solid $color-blue-700;
+    }
+  }
+
+  .chat-bottom {
+    display: flex;
+    align-items: center;
+
+    .form-control:focus, .form-control:not(:focus){
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  .chat-header,
+  .chat-bottom {
+    background-color: $color-blue-700;
+    color: white;
+    padding: 0 20px;
+  }
+}

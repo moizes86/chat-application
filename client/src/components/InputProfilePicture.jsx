@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { validationsAPI } from "../DAL/validations";
 import "./InputProfilePicture.scss";
-// import { useLocation } from "react-router";
-// import {origin} from '../../DAL/http_Service';
 
 const InputProfilePicture = ({ handleChange, errors, profilePic }) => {
   const [profilePicPreview, setProfilePicPreview] = useState(null);
@@ -18,7 +16,6 @@ const InputProfilePicture = ({ handleChange, errors, profilePic }) => {
       } catch (err) {
         setError(err.message);
       }
-      // return handleChange({ target: { name: "images", value: images } });
     }
   };
 

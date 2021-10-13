@@ -1,0 +1,24 @@
+@import "../styles.scss";
+
+.chat-msg-container {
+  background-color: $color-blue-100;
+  border-radius: 6px;
+
+  .msg-details {
+    color: $color-blue-500;
+    margin-bottom: 0;
+    font-size: smaller;
+  }
+
+  .msg-content {
+    margin-bottom: 0;
+  }
+}
+
+.my-message {
+  background-color: $color-blue-700;
+
+  .msg-details {
+    color: $color-blue-100;
+  }
+}

@@ -11,7 +11,7 @@ import SubmitErrorMessage from "../components/SubmitErrorMessage";
 import MyModal from "../components/MyModal";
 //
 import "./VerifyAccount.scss";
-import { verifyAccount, sendEmailVerification } from "../DAL/users";
+import { verifyAccount } from "../DAL/users";
 import SendEmailVerification from "../components/SendEmailVerification";
 
 function VerifyAccount() {
@@ -35,7 +35,7 @@ function VerifyAccount() {
   };
 
   return (
-    <div className="verify-account">
+    <div className="verify-account user-access-form pt-5">
       {loading && <Spinner />}
       <form onSubmit={onSubmitVerify}>
         <InputField
@@ -46,11 +46,14 @@ function VerifyAccount() {
           id="verificationCode"
           value={values.verificationCode}
           validationError={validationErrors.verificationCode}
+          icon="bi bi-key"
           handleChange={handleChange}
         />
         <SubmitButton btnText="Verify Account" />
-        <SubmitErrorMessage errorMessage={requestError.message}></SubmitErrorMessage>
+
         <SendEmailVerification email={values.email} text={`Don't have code? `} clickableText="Send again" />
+        <Link to="/"> Back</Link>
+        <SubmitErrorMessage errorMessage={requestError.message}></SubmitErrorMessage>
 
         {data && (
           <MyModal data={data}>
