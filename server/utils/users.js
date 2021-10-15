@@ -10,6 +10,7 @@ function userJoin(id, email, username, room) {
 
 // Get current user
 function getCurrentUser(id) {
+  debugger
   return users.find((user) => user.id === id);
 }
 

@@ -2,13 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 //
 import { useDispatch, useSelector } from "react-redux";
-import {
-  onJoinRoom,
-  onLeaveRoom,
-  onMessageRecieved,
-  onClearMessages,
-  onSetUsersInRoom,
-} from "../redux/chat/chat.actions";
+import { onMessageRecieved, onClearMessages, onSetUsersInRoom } from "../redux/chat/chat.actions";
 //
 import ChatMessage from "./ChatMessage";
 //
@@ -82,11 +76,7 @@ function ChatContainer() {
               <i className="bi bi-people"></i> Users
             </h5>
 
-            <ul>
-              {usersInRoom.length && usersInRoom.map((user, i) => (
-                <li key={i}> {user}</li>
-              ))}
-            </ul>
+            <ul>{usersInRoom.length && usersInRoom.map((user, i) => <li key={i}> {user}</li>)}</ul>
           </div>
         </div>
         <div className="chat">
@@ -109,13 +99,13 @@ function ChatContainer() {
             onChange={handleChange}
           />
           <div className="input-group-append">
-            <span
+            <button
               className="input-group-text"
               id="basic-addon2"
-              onClick={() => socket.emit("chatMessage", message)}
+              onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
             >
               SEND
-            </span>
+            </button>
           </div>
         </div>
       </div>

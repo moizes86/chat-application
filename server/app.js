@@ -50,6 +50,8 @@ server.listen(port, () => {
 io.on("connection", (socket) => {
   const botName = "Admin";
   socket.on("joinRoom", ({ currentUser: { email, username }, room }) => {
+    console.log(socket.id);
+
     const user = userJoin(socket.id, email, username, room);
 
     socket.join(user.room);
@@ -67,10 +69,8 @@ io.on("connection", (socket) => {
   });
 
   // Listen for chatMessage
-  socket.on("chatMessage", (msg) => {
-    const user = getCurrentUser(socket.id);
-
-    io.to(user.room).emit("message", formatMessage(user.username, msg));
+  socket.on("chatMessage", ({room,currentUser, message}) => {
+    io.to(room).emit("message", { user: currentUser.username, text: message });
   });
 
   // Runs when client disconnects
