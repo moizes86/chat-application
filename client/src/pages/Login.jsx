@@ -7,6 +7,7 @@ import { login } from "../DAL/users";
 //
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
+import {onCreateSocket} from "../redux//chat/chat.actions";
 //
 import { Link } from "react-router-dom";
 //
@@ -18,18 +19,25 @@ import MyModal from "../components/MyModal";
 import "./Login.scss";
 
 function Login() {
+  // Handle form
   const { values, validationErrors, handleBlur, handleChange, setValues, validateForm } = useForm();
+  
+  //Handle async requests
   const { data, requestError, loading, sendRequest, Spinner } = useFetch();
+
   const dispatch = useDispatch();
 
+  // Set initial values on mount and clear values on unmount
   useEffect(() => {
     setValues({ email: "", password: "" });
     return () => setValues({ email: "", password: "" });
   }, [setValues]);
 
+  // Set user in redux state after login
   useEffect(() => {
     if (data) {
       dispatch(setCurrentUser(data.user));
+      dispatch(onCreateSocket())
     }
   }, [data, dispatch]);
 
@@ -41,7 +49,7 @@ function Login() {
     }
   }
   return (
-    <div className="login user-access-form">
+    <div className="login custom-form">
       <h3>Login</h3>
       {loading && <Spinner />}
       <form onSubmit={onSubmitLogin}>
@@ -70,7 +78,6 @@ function Login() {
         />
 
         <SubmitButton btnText="Login" />
-
         <p className="text-center">
           Not a member? <Link to="/signup">Signup</Link>
         </p>

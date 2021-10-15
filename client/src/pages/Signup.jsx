@@ -52,7 +52,7 @@ function Signup() {
   }
 
   return (
-    <div className="signup user-access-form">
+    <div className="signup custom-form">
       <h3>Signup</h3>
       <form onSubmit={onSubmitSignup}>
         {loading && <Spinner />}

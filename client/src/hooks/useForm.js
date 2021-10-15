@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {  validateField } from "../DAL/validations";
+import { validateField } from "../DAL/validations";
 
 export default function useForm() {
   const [values, setValues] = useState({});
@@ -23,6 +23,7 @@ export default function useForm() {
     for (const key in values) {
       try {
         validateField(key, values[key], values.password);
+        setValidationErrors({ ...validationErrors, [key]: "" });
       } catch (err) {
         setValidationErrors({ ...validationErrors, [key]: err.message });
         return false;

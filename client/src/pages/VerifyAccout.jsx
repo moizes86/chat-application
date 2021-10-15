@@ -35,7 +35,7 @@ function VerifyAccount() {
   };
 
   return (
-    <div className="verify-account user-access-form pt-5">
+    <div className="verify-account custom-form pt-5">
       {loading && <Spinner />}
       <form onSubmit={onSubmitVerify}>
         <InputField
