@@ -44,6 +44,8 @@ function ChatContainer() {
     };
   }, []);
 
+
+
   const handleChange = ({ target: { value } }) => {
     return setMessage(value);
   };
@@ -89,6 +91,7 @@ function ChatContainer() {
           {messages.map((message, i) => (
             <ChatMessage
               key={`${i}-${message.text}`}
+              index={i}
               currentUser={currentUser}
               text={message.text}
               user={message.user}
@@ -105,8 +108,10 @@ function ChatContainer() {
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            socket.emit("chatMessage", { room, currentUser, message });
-            setMessage("");
+            if (message.length) {
+              socket.emit("chatMessage", { room, currentUser, message });
+              setMessage("");
+            }
           }}
           className="w-100"
         >
