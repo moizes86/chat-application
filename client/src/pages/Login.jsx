@@ -7,7 +7,6 @@ import { login } from "../DAL/users";
 //
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "../redux/user/user.actions";
-import {onCreateSocket} from "../redux//chat/chat.actions";
 //
 import { Link } from "react-router-dom";
 //
@@ -17,11 +16,12 @@ import SubmitErrorMessage from "../components/SubmitErrorMessage";
 import MyModal from "../components/MyModal";
 //
 import "./Login.scss";
+import { onConnectSocket } from "../redux/chat/chat.actions";
 
 function Login() {
   // Handle form
   const { values, validationErrors, handleBlur, handleChange, setValues, validateForm } = useForm();
-  
+
   //Handle async requests
   const { data, requestError, loading, sendRequest, Spinner } = useFetch();
 
@@ -37,7 +37,7 @@ function Login() {
   useEffect(() => {
     if (data) {
       dispatch(setCurrentUser(data.user));
-      dispatch(onCreateSocket())
+      dispatch(onConnectSocket());
     }
   }, [data, dispatch]);
 
@@ -93,7 +93,7 @@ function Login() {
         {data && (
           <MyModal data={data}>
             <div className="text-center">
-              <Link to="/">Start Chatting</Link>
+              <Link to="/chat">Start Chatting</Link>
             </div>
           </MyModal>
         )}

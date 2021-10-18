@@ -1,7 +1,8 @@
 import { UserActionTypes } from "./user.types";
 
 const INITIAL_STATE = {
-  currentUser: {email:'moshe.mn86@gmail.com', username:'Moshe'},
+  // currentUser: {email:'moshe.mn86@gmail.com', username:'Moshe'},
+  currentUser: null,
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {

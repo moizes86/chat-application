@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 //
 import { useDispatch, useSelector } from "react-redux";
-import { onMessageRecieved, onClearMessages, onSetUsersInRoom } from "../redux/chat/chat.actions";
+import { onSetRoomUsers, onMessageRecieved, onClearMessages } from "../redux/chat/chat.actions";
 //
 import ChatMessage from "./ChatMessage";
 //
 import "./ChatContainer.scss";
 //
-import { io } from "socket.io-client";
+// import socket from "../DAL/socket";
 
 function ChatContainer() {
   const [message, setMessage] = useState("");
@@ -16,24 +16,18 @@ function ChatContainer() {
   const history = useHistory();
   const { room } = useParams();
   const { currentUser } = useSelector((state) => state.user);
-  const { messages, usersInRoom } = useSelector((state) => state.chat);
+  const { messages, roomUsers, socket } = useSelector((state) => state.chat);
 
-  const socket = io("http://localhost:3100");
-
+ 
   useEffect(() => {
-    socket.emit("joinRoom", { currentUser, room });
-
-    socket.on("message", (msg) => {
-      dispatch(onMessageRecieved(msg));
-    });
-
-    socket.on("roomUsers", (users) => {
-      dispatch(onSetUsersInRoom(users));
-    });
+    console.log('CHAT CONTAINR')
+     socket.on("room-users", (roomUsers) => dispatch(onSetRoomUsers(roomUsers)));
+     socket.on("message", (msg) => {
+       dispatch(onMessageRecieved(msg));
+     });
 
     return () => {
-      socket.emit("leaveRoom", currentUser);
-      socket.off();
+      socket.emit("leave-room");
       dispatch(onClearMessages());
     };
   }, []);
@@ -76,12 +70,18 @@ function ChatContainer() {
               <i className="bi bi-people"></i> Users
             </h5>
 
-            <ul>{usersInRoom.length && usersInRoom.map((user, i) => <li key={i}> {user}</li>)}</ul>
+            <ul>{roomUsers.length && roomUsers.map((user, i) => <li key={i}> {user.username}</li>)}</ul>
           </div>
         </div>
         <div className="chat">
           {messages.map((message, i) => (
-            <ChatMessage key={`${i}-${message.text}`} text={message.text} user={message.user} />
+            <ChatMessage
+              key={`${i}-${message.text}`}
+              currentUser={currentUser}
+              text={message.text}
+              user={message.user}
+              botMessage={message.botMessage}
+            />
           ))}
         </div>
       </div>
@@ -102,7 +102,7 @@ function ChatContainer() {
             <button
               className="input-group-text"
               id="basic-addon2"
-              onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
+              // onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
             >
               SEND
             </button>

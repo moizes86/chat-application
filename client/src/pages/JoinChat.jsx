@@ -1,29 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 //
-import useForm from "../hooks/useForm";
+import { io } from "socket.io-client";
 //
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //
 import { useHistory } from "react-router";
 //
 import "./JoinChat.scss";
+import { onSetRooms,  } from "../redux/chat/chat.actions";
+
 //
-import SubmitErrorMessage from "../components/SubmitErrorMessage";
 
 export default function JoinChat() {
-  // Handle Inputs
-  const { values, validationErrors, setValues, handleChange, validateForm } = useForm();
+  const [selectedRoom, setSelectedRoom] = useState("");
 
   const history = useHistory();
   const dispatch = useDispatch();
+  const { currentUser } = useSelector((state) => state.user);
+  const { rooms, messages, socket } = useSelector((state) => state.chat);
 
   useEffect(() => {
-    setValues({ roomName__create: "" });
-
+    console.log("COMPONENT REND");
+    if(!rooms.length) socket.emit("get-rooms");
+    socket.on("rooms-list", (rooms) => {
+      dispatch(onSetRooms(rooms));
+    });
+    
     return () => {
-      setValues({ roomName__create: "" });
     };
-  }, [setValues, dispatch]);
+  }, [socket, dispatch]);
 
   return (
     <div className="join-chat custom-form">
@@ -33,48 +38,26 @@ export default function JoinChat() {
           <select
             className="form-select"
             id="exampleFormControlSelect1"
-            name="roomName__select"
-            onChange={handleChange}
+            name="roomName"
+            onChange={(e) => setSelectedRoom(e.target.value)}
           >
             <option hidden>Choose one</option>
 
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            {rooms.map((room, i) => (
+              <option key={`${room.name}-${i}`}>{room.name}</option>
+            ))}
           </select>
           <button
             className="mt-2"
             onClick={(e) => {
               e.preventDefault();
-              if (values.roomName__select) history.push(`/chat/room/${values.roomName__select}`);
-              
+              if (selectedRoom) {
+                socket.emit("join-room", { room: selectedRoom, currentUser });
+                history.push(`/chat/room/${selectedRoom}`);
+              }
             }}
           >
             Join Room
-          </button>
-        </div>
-
-        <h4 className="text-center my-3"> Or</h4>
-
-        <div className="text-center">
-          <input
-            className="form-control"
-            name="roomName__create"
-            type="text"
-            placeholder="Room Name"
-            onChange={handleChange}
-          />
-          <SubmitErrorMessage errorMessage={validationErrors.roomName__create} />
-          <button
-            className="mt-2"
-            onClick={(e) => {
-              e.preventDefault();
-              if (validateForm()) history.push(`/chat/room/${values.roomName__create}`);
-            }}
-          >
-            Create Room
           </button>
         </div>
       </form>

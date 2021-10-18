@@ -10,7 +10,6 @@ function userJoin(id, email, username, room) {
 
 // Get current user
 function getCurrentUser(id) {
-  debugger
   return users.find((user) => user.id === id);
 }
 
@@ -25,7 +24,7 @@ function userLeave(id) {
 
 // Get room users
 function getRoomUsers(room) {
-  return users.filter((user) => user.room === room).map((user) => user.username);
+  return users.filter((user) => user.room === room);
 }
 
 module.exports = {

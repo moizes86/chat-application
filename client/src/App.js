@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 //
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 //
 import { Route, Redirect } from "react-router";
 // Components
@@ -9,11 +9,16 @@ import VerifyAccount from "./pages/VerifyAccout";
 import Login from "./pages/Login";
 import JoinChat from "./pages/JoinChat";
 import ChatContainer from "./components/ChatContainer";
+import PrivateRoute from "./PrivateRoute";
 //
 import "./App.scss";
 
-function App({ children }) {
+
+function App() {
+  const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+
+  useEffect(() => {}, [dispatch, currentUser]);
 
   return (
     <div className="App container">
@@ -26,12 +31,9 @@ function App({ children }) {
       <Route exact path="/login">
         <Login />
       </Route>
-      <Route exact path="/chat">
-        <JoinChat />
-      </Route>
-      <Route exact path="/chat/room/:room">
-        <ChatContainer />
-      </Route>
+      <PrivateRoute path="/chat" component={JoinChat} authed={currentUser !== null} />
+
+      <PrivateRoute path="/chat/room/:room" component={ChatContainer} authed={currentUser !== null} />
     </div>
   );
 }

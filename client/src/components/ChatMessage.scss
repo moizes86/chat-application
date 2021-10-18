@@ -3,6 +3,7 @@
 .chat-msg-container {
   background-color: $color-blue-100;
   border-radius: 6px;
+  align-self: flex-start;
 
   .msg-details {
     color: $color-blue-500;
@@ -17,8 +18,15 @@
 
 .my-message {
   background-color: $color-blue-700;
+  align-self: flex-end;
 
   .msg-details {
     color: $color-blue-100;
   }
+
+  
 }
+
+.bot-message{
+    align-self: center;
+  }

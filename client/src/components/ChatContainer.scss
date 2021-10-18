@@ -5,6 +5,7 @@
   grid-template-rows: 80px auto 80px;
   height: 100%;
 
+
   .chat-header {
     .left-side {
       font-size: 2rem;
@@ -16,6 +17,8 @@
   .chat-main {
     display: grid;
     grid-template-columns: 1fr 4fr;
+  overflow-y: scroll;
+
 
     .side-bar {
       background-color: $color-blue-500;
@@ -41,6 +44,8 @@
     .chat {
       padding: 20px;
       border-right: 10px solid $color-blue-700;
+      display:flex;
+      flex-direction: column;
     }
   }
 

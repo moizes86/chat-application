@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 const { upload } = require("../utils/multer");
-const User = require("../models/userModels");
+const User = require("../models/user.model");
 const { generateHash } = require("../utils/bcrypt");
 const { emailer } = require("../utils/emailer");
 const bcrypt = require("bcrypt");

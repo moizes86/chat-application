@@ -13,6 +13,8 @@ const mongoose = require("mongoose");
 var logger = require("morgan");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const { socketHandler } = require("./utils/socketHandler");
+const Room = require("./models/room.model");
 
 const { userJoin, userLeave, getCurrentUser, getRoomUsers } = require("./utils/users");
 
@@ -42,46 +44,60 @@ server.listen(port, () => {
   console.log(`Server connected. Listening at http://localhost:${port}`);
 });
 
-//
-//
-//
-//
+// const onConnection = (socket) => {
+//   socketHandler(io, socket);
+// };
 
-io.on("connection", (socket) => {
+// io.on("connect", onConnection);
+io.on("connect", (socket) => {
+  console.log("SOCKET: " + socket.id);
+
+  // Get Rooms List
+  socket.on("get-rooms", async () => {
+    const rooms = await Room.find();
+    socket.emit("rooms-list", rooms);
+  });
+
   const botName = "Admin";
-  socket.on("joinRoom", ({ currentUser: { email, username }, room }) => {
-    console.log(socket.id);
 
+  // ** ON JOIN ROOM **
+  socket.on("join-room", ({ currentUser: { email, username }, room }) => {
     const user = userJoin(socket.id, email, username, room);
-
     socket.join(user.room);
 
+
     // Welcome current user
-    socket.emit("message", { user: botName, text: `Welcome to room ${user.room}` });
+    socket.emit("message", { user: botName, text: `Welcome to room ${user.room}`, botMessage: true });
 
     // Broadcast when a user connects
     socket.broadcast
       .to(user.room)
-      .emit("message", { user: botName, text: `${user.username} has joined the chat` });
+      .emit("message", { user: botName, text: `${user.username} has joined the chat`, botMessage: true });
 
     // Send users and room info
-    io.to(user.room).emit("roomUsers", getRoomUsers(user.room));
+    io.to(user.room).emit("room-users", getRoomUsers(user.room));
+
+
   });
+  // ** END ON JOIN ROOM**
 
   // Listen for chatMessage
-  socket.on("chatMessage", ({room,currentUser, message}) => {
-    io.to(room).emit("message", { user: currentUser.username, text: message });
+  socket.on("chatMessage", ({ room, currentUser, message }) => {
+    io.to(room).emit("message", { user: currentUser, text: message });
   });
 
   // Runs when client disconnects
-  socket.on("leaveRoom", () => {
+  socket.on("leave-room", () => {
+    console.log('leave-room')
     const user = userLeave(socket.id);
+    socket.leave(user.room);
 
     if (user) {
       io.to(user.room).emit("message", { user: botName, text: `${user.username} has left the room` });
 
       // Send users and room info
-      io.to(user.room).emit("roomUsers", getRoomUsers(user.room));
+      io.to(user.room).emit("room-users", getRoomUsers(user.room));
     }
+
   });
 });
