@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 //
 import { useDispatch, useSelector } from "react-redux";
-import { onSetRoomUsers, onMessageRecieved, onClearMessages } from "../redux/chat/chat.actions";
+import {
+  onSetRoomUsers,
+  onMessageRecieved,
+  onClearMessages,
+  onSetPreviousMessages,
+} from "../redux/chat/chat.actions";
 //
 import ChatMessage from "./ChatMessage";
 //
@@ -19,8 +24,15 @@ function ChatContainer() {
   const { messages, roomUsers, socket } = useSelector((state) => state.chat);
 
   useEffect(() => {
-    console.log("CHAT CONTAINR");
+    // Get users in room
     socket.on("room-users", (roomUsers) => dispatch(onSetRoomUsers(roomUsers)));
+
+    // Get previous messages
+    socket.on("previous-messages", (messages) => {
+      dispatch(onSetPreviousMessages(messages));
+    });
+
+    // Get messages in real time
     socket.on("message", (msg) => {
       dispatch(onMessageRecieved(msg));
     });
@@ -94,11 +106,11 @@ function ChatContainer() {
           onSubmit={(e) => {
             e.preventDefault();
             socket.emit("chatMessage", { room, currentUser, message });
-            setMessage('')
+            setMessage("");
           }}
           className="w-100"
         >
-          <div class="input-group mb-3">
+          <div className="input-group mb-3">
             <input
               type="text"
               className="form-control"
@@ -106,7 +118,7 @@ function ChatContainer() {
               value={message}
               onChange={handleChange}
             />{" "}
-            <div class="input-group-append">
+            <div className="input-group-append">
               <button className="input-group-text" id="basic-addon2">
                 SEND
               </button>

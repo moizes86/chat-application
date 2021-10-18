@@ -40,6 +40,12 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         messages: [],
       };
 
+    case ChatActionTypes.ON_SET_PREVIOUS_MESSAGES:
+      return {
+        ...state,
+        messages: action.payload,
+      };
+
     default:
       return state;
   }

@@ -24,3 +24,8 @@ export const onClearMessages = () => ({
   type: ChatActionTypes.ON_CLEAR_MESSAGES,
   payload: null,
 });
+
+export const onSetPreviousMessages = (previousMsgs) => ({
+  type: ChatActionTypes.ON_SET_PREVIOUS_MESSAGES,
+  payload: previousMsgs,
+});

@@ -1,3 +1,4 @@
+const Message = require("../models/message.model");
 const users = [];
 
 // Join user to chat
@@ -27,9 +28,14 @@ function getRoomUsers(room) {
   return users.filter((user) => user.room === room);
 }
 
+ async function getPreviousMessages(room) {
+    return await Message.find({room});
+}
+
 module.exports = {
   userJoin,
   getCurrentUser,
   userLeave,
   getRoomUsers,
+  getPreviousMessages,
 };

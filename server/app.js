@@ -13,10 +13,11 @@ const mongoose = require("mongoose");
 var logger = require("morgan");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
-const { socketHandler } = require("./utils/socketHandler");
 const Room = require("./models/room.model");
+const Message = require("./models/message.model");
+// const { socketHandler } = require("./utils/socketHandler");
 
-const { userJoin, userLeave, getCurrentUser, getRoomUsers } = require("./utils/users");
+const { userJoin, userLeave, getRoomUsers, getPreviousMessages } = require("./utils/users");
 
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -44,14 +45,7 @@ server.listen(port, () => {
   console.log(`Server connected. Listening at http://localhost:${port}`);
 });
 
-// const onConnection = (socket) => {
-//   socketHandler(io, socket);
-// };
-
-// io.on("connect", onConnection);
 io.on("connect", (socket) => {
-  console.log("SOCKET: " + socket.id);
-
   // Get Rooms List
   socket.on("get-rooms", async () => {
     const rooms = await Room.find();
@@ -61,8 +55,10 @@ io.on("connect", (socket) => {
   const botName = "Admin";
 
   // ** ON JOIN ROOM **
-  socket.on("join-room", ({ currentUser: { email, username }, room }) => {
+  socket.on("join-room",  async ({ currentUser: { email, username }, room }) => {
     const user = userJoin(socket.id, email, username, room);
+    const previousMessages = await getPreviousMessages(room);
+
     socket.join(user.room);
 
     // Welcome current user
@@ -75,20 +71,29 @@ io.on("connect", (socket) => {
 
     // Send users and room info
     io.to(user.room).emit("room-users", getRoomUsers(user.room));
+
+    // Send room's previous messages
+    io.to(user.room).emit("previous-messages", previousMessages);
   });
   // ** END ON JOIN ROOM**
 
   // Listen for chatMessage
-  socket.on("chatMessage", ({ room, currentUser, message }) => {
+  socket.on("chatMessage", async({ room, currentUser, message }) => {
     io.to(room).emit("message", { user: currentUser, text: message });
+
+    // Save message to db
+    const docMessage = new Message({ text: message, user: currentUser, room});
+    await docMessage.save((err, doc)=>{
+      if(err) return console.log(err)
+    })
   });
 
   // Runs when client disconnects
   socket.on("leave-room", () => {
     const user = userLeave(socket.id);
-    socket.leave(user.room);
 
     if (user) {
+      socket.leave(user.room);
       io.to(user.room).emit("message", {
         user: botName,
         text: `${user.username} has left the room`,
@@ -100,3 +105,9 @@ io.on("connect", (socket) => {
     }
   });
 });
+
+// const onConnection = (socket) => {
+//   socketHandler(io, socket);
+// };
+
+// io.on("connect", onConnection);
