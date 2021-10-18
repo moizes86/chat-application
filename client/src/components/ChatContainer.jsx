@@ -28,6 +28,7 @@ function ChatContainer() {
 
     return () => {
       socket.emit("leave-room");
+      socket.off();
       dispatch(onClearMessages());
     };
   }, []);
@@ -102,7 +103,7 @@ function ChatContainer() {
             <button
               className="input-group-text"
               id="basic-addon2"
-              // onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
+              onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
             >
               SEND
             </button>

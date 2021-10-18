@@ -88,7 +88,6 @@ io.on("connect", (socket) => {
 
   // Runs when client disconnects
   socket.on("leave-room", () => {
-    console.log('leave-room')
     const user = userLeave(socket.id);
     socket.leave(user.room);
 

@@ -20,13 +20,13 @@ export default function JoinChat() {
   const { rooms, messages, socket } = useSelector((state) => state.chat);
 
   useEffect(() => {
-    console.log("COMPONENT REND");
     if(!rooms.length) socket.emit("get-rooms");
     socket.on("rooms-list", (rooms) => {
       dispatch(onSetRooms(rooms));
     });
     
     return () => {
+      socket.off();
     };
   }, [socket, dispatch]);
 
