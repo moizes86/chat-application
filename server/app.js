@@ -65,7 +65,6 @@ io.on("connect", (socket) => {
     const user = userJoin(socket.id, email, username, room);
     socket.join(user.room);
 
-
     // Welcome current user
     socket.emit("message", { user: botName, text: `Welcome to room ${user.room}`, botMessage: true });
 
@@ -76,8 +75,6 @@ io.on("connect", (socket) => {
 
     // Send users and room info
     io.to(user.room).emit("room-users", getRoomUsers(user.room));
-
-
   });
   // ** END ON JOIN ROOM**
 
@@ -92,11 +89,14 @@ io.on("connect", (socket) => {
     socket.leave(user.room);
 
     if (user) {
-      io.to(user.room).emit("message", { user: botName, text: `${user.username} has left the room` });
+      io.to(user.room).emit("message", {
+        user: botName,
+        text: `${user.username} has left the room`,
+        botMessage: true,
+      });
 
       // Send users and room info
       io.to(user.room).emit("room-users", getRoomUsers(user.room));
     }
-
   });
 });

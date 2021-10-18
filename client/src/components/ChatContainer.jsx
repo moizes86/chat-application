@@ -18,13 +18,12 @@ function ChatContainer() {
   const { currentUser } = useSelector((state) => state.user);
   const { messages, roomUsers, socket } = useSelector((state) => state.chat);
 
- 
   useEffect(() => {
-    console.log('CHAT CONTAINR')
-     socket.on("room-users", (roomUsers) => dispatch(onSetRoomUsers(roomUsers)));
-     socket.on("message", (msg) => {
-       dispatch(onMessageRecieved(msg));
-     });
+    console.log("CHAT CONTAINR");
+    socket.on("room-users", (roomUsers) => dispatch(onSetRoomUsers(roomUsers)));
+    socket.on("message", (msg) => {
+      dispatch(onMessageRecieved(msg));
+    });
 
     return () => {
       socket.emit("leave-room");
@@ -91,24 +90,29 @@ function ChatContainer() {
       {/* Bottom */}
       {/* ****** */}
       <div className="chat-bottom">
-        <div className="input-group mb-3">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Say something..."
-            value={message}
-            onChange={handleChange}
-          />
-          <div className="input-group-append">
-            <button
-              className="input-group-text"
-              id="basic-addon2"
-              onClick={() => socket.emit("chatMessage", { room, currentUser, message })}
-            >
-              SEND
-            </button>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            socket.emit("chatMessage", { room, currentUser, message });
+            setMessage('')
+          }}
+          className="w-100"
+        >
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Say something..."
+              value={message}
+              onChange={handleChange}
+            />{" "}
+            <div class="input-group-append">
+              <button className="input-group-text" id="basic-addon2">
+                SEND
+              </button>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );
