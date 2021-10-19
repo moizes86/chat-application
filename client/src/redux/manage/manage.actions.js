@@ -1,9 +1,13 @@
 import { ManageActionTypes } from "./manage.types";
 
-
-export const onQueryUsersStart = () => ({
-  type: ManageActionTypes.ON_QUERY_USERS_START,
+export const onFetchStart = () => ({
+  type: ManageActionTypes.ON_FETCH_START,
   payload: null,
+});
+
+export const onFetchFailed = (err) => ({
+  type: ManageActionTypes.ON_FETCH_FAILED,
+  payload: err,
 });
 
 export const onQueryUsersSuccess = (users) => ({
@@ -11,7 +15,12 @@ export const onQueryUsersSuccess = (users) => ({
   payload: users,
 });
 
-export const onQueryUsersFailure = (err) => ({
-  type: ManageActionTypes.ON_QUERY_USERS_FAILURE,
-  payload: err,
+export const onGetUserSuccess = (data) => ({
+  type: ManageActionTypes.ON_GET_USER_SUCCESS,
+  payload: data,
+});
+
+export const onClearUsers = () => ({
+  type: ManageActionTypes.ON_CLEAR_USERS,
+  payload: null,
 });

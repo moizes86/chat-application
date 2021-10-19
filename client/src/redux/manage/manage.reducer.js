@@ -4,14 +4,22 @@ const INITIAL_STATE = {
   loading: false,
   fetchError: null,
   users: [],
+  user: null,
 };
 
 const manageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ManageActionTypes.ON_QUERY_USERS_START:
+    case ManageActionTypes.ON_FETCH_START:
       return {
         ...state,
         loading: true,
+      };
+
+    case ManageActionTypes.ON_FETCH_FAILED:
+      return {
+        ...state,
+        fetchError: action.payload,
+        loading: false,
       };
 
     case ManageActionTypes.ON_QUERY_USERS_SUCCESS:
@@ -21,11 +29,17 @@ const manageReducer = (state = INITIAL_STATE, action) => {
         loading: false,
       };
 
-    case ManageActionTypes.ON_QUERY_USERS_FAILURE:
+    case ManageActionTypes.ON_GET_USER_SUCCESS:
       return {
         ...state,
-        fetchError: action.payload,
+        user: { details: action.payload.details, messages: action.payload.messages },
         loading: false,
+      };
+
+    case ManageActionTypes.ON_CLEAR_USERS:
+      return {
+        ...state,
+        users: [],
       };
 
     default:

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 //
 import { useDispatch, useSelector } from "react-redux";
 import { asyncOnQueryUsers } from "../redux/manage/manage.utils";
+import { onClearUsers } from "../redux/manage/manage.actions";
 //
 import MySpinner from "../components/MySpinner";
 //
@@ -26,11 +27,13 @@ export default function ManageUsers() {
       }
     }, 1500);
 
-    return () => clearTimeout(delayedSearch);
+    return () => {
+      clearTimeout(delayedSearch);
+      dispatch(onClearUsers());
+    };
   }, [query, dispatch]);
 
   const handleSubmit = (e) => {
-    console.log(e);
     e.preventDefault();
     dispatch(asyncOnQueryUsers(query));
   };
@@ -48,7 +51,11 @@ export default function ManageUsers() {
             value={query}
             onChange={({ target: { value } }) => setQuery(value)}
             onFocus={() => setInputFocused(true)}
-            onBlur={() => setInputFocused(false)}
+            onBlur={() =>
+              setTimeout(() => {
+                setInputFocused(false);
+              }, 200)
+            }
           />
           <div className="input-group-append">
             <button
@@ -63,13 +70,13 @@ export default function ManageUsers() {
             </button>
           </div>
         </div>
-          <div className="position-relative">
-            {users.length !== 0 && displayAutoSuggest && (
-              <AutoSuggest results={users} inputFocused={inputFocused} />
-            )}
-          </div>
+        <div className="position-relative">
+          {users.length !== 0 && displayAutoSuggest && (
+            <AutoSuggest results={users} inputFocused={inputFocused} />
+          )}
+        </div>
 
-        {users.length !== 0 && <UsersTable users={results} />}
+        {results !== 0 && <UsersTable users={results} />}
       </form>
     </div>
   );
