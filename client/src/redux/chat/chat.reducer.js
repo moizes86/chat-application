@@ -29,8 +29,10 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.ON_MESSAGE_RECIEVED:
-      state.messages.push(action.payload);
+      state.messages.push(action.payload)
+      console.log(state.messages)
       return {
+        
         ...state,
       };
 

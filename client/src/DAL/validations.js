@@ -45,10 +45,6 @@ export const validationsAPI = {
     if (!verificationCode) throw Error("Verification code is required");
   },
 
-  roomName__create(roomName){
-    if(roomName.length < 3) throw Error('Too short! At least 3 chars');
-    if(roomName.length > 25) throw Error('Too long! max 25 chars')
-  }
 };
 
 export const validateField = (key, value, password = null) => {

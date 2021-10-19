@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 //
-import { io } from "socket.io-client";
-//
 import { useDispatch, useSelector } from "react-redux";
+import { onSetRooms } from "../redux/chat/chat.actions";
+import { onLogout } from "../redux/user/user.actions";
 //
 import { useHistory } from "react-router";
 //
 import "./JoinChat.scss";
-import { onSetRooms,  } from "../redux/chat/chat.actions";
-
-//
 
 export default function JoinChat() {
   const [selectedRoom, setSelectedRoom] = useState("");
@@ -17,18 +14,18 @@ export default function JoinChat() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
-  const { rooms, messages, socket } = useSelector((state) => state.chat);
+  const { rooms, socket } = useSelector((state) => state.chat);
 
   useEffect(() => {
-    if(!rooms.length) socket.emit("get-rooms");
+    if (!rooms.length) socket.emit("get-rooms");
     socket.on("rooms-list", (rooms) => {
       dispatch(onSetRooms(rooms));
     });
-    
+
     return () => {
       socket.off();
     };
-  }, [socket, dispatch]);
+  }, [socket, dispatch, rooms.length]);
 
   return (
     <div className="join-chat custom-form">
@@ -47,18 +44,30 @@ export default function JoinChat() {
               <option key={`${room.name}-${i}`}>{room.name}</option>
             ))}
           </select>
-          <button
-            className="mt-2"
-            onClick={(e) => {
-              e.preventDefault();
-              if (selectedRoom) {
-                socket.emit("join-room", { room: selectedRoom, currentUser });
-                history.push(`/chat/room/${selectedRoom}`);
-              }
-            }}
-          >
-            Join Room
-          </button>
+
+          <div className="join-chat-bottom d-flex justify-content-between mt-3">
+            <button
+              className="btn btn-primary"
+              onClick={(e) => {
+                e.preventDefault();
+                if (selectedRoom) {
+                  socket.emit("join-room", { room: selectedRoom, currentUser });
+                  history.push(`/chat/room/${selectedRoom}`);
+                }
+              }}
+            >
+              Join Room
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(onLogout());
+              }}
+            >
+              Logout
+            </button>
+          </div>
         </div>
       </form>
     </div>

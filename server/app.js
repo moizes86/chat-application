@@ -61,6 +61,9 @@ io.on("connect", (socket) => {
 
     socket.join(user.room);
 
+    // Send room's previous messages
+    socket.emit("previous-messages", previousMessages);
+    
     // Welcome current user
     socket.emit("message", { user: botName, text: `Welcome to room ${user.room}`, botMessage: true });
 
@@ -72,8 +75,6 @@ io.on("connect", (socket) => {
     // Send users and room info
     io.to(user.room).emit("room-users", getRoomUsers(user.room));
 
-    // Send room's previous messages
-    io.to(user.room).emit("previous-messages", previousMessages);
   });
   // ** END ON JOIN ROOM**
 

@@ -1,7 +1,6 @@
 import { UserActionTypes } from "./user.types";
 
 const INITIAL_STATE = {
-  // currentUser: {email:'moshe.mn86@gmail.com', username:'Moshe'},
   currentUser: null,
 };
 
@@ -13,7 +12,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         currentUser: action.payload,
       };
 
-    case UserActionTypes.LOGOUT_CURRENT_USER:
+    case UserActionTypes.ON_LOGOUT:
       return {
         ...state,
         currentUser: null,

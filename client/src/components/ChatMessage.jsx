@@ -20,7 +20,7 @@ export default function ChatMessage({ index, user, text, currentUser, botMessage
 
   return (
     <div
-      className={`chat-msg-container my-2 p-2 ${myMessage} ${botMessage ? "bot-message" : ""}`}
+      className={`chat-msg-container my-2 p-2 ${myMessage} ${botMessage ? "bot-message" : "my-4"}`}
       ref={lastMessage ? lastMessageRef : null}
     >
       <p className="msg-details">{user.username}</p>

@@ -1,7 +1,7 @@
 @import "../styles.scss";
 
 .chat-msg-container {
-  background-color: $color-blue-100;
+  background-color: $color-blue-300;
   border-radius: 6px;
   align-self: flex-start;
 
@@ -29,4 +29,8 @@
 
 .bot-message{
     align-self: center;
+      font-size: 0.8rem;
+      background-color: transparent;
+      background-color: $color-blue-100;
+      opacity: 0.8;
   }

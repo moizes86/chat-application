@@ -22,14 +22,14 @@ function App() {
 
   return (
     <div className="App container">
-      <Route exact path={["/", "/signup"]}>
-        {currentUser ? <Redirect to="/chat" /> : <Signup />}
+      <Route exact path={["/", "/login"]}>
+        {currentUser ? <Redirect to="/chat" /> : <Login />}
       </Route>
       <Route path="/verify-account/:email">
         <VerifyAccount />
       </Route>
-      <Route exact path="/login">
-        <Login />
+      <Route exact path="/signup">
+        <Signup />
       </Route>
       <PrivateRoute path="/chat" component={JoinChat} authed={currentUser !== null} />
 
