@@ -12,6 +12,7 @@ import {
 import ChatMessage from "./ChatMessage";
 //
 import "./ChatContainer.scss";
+import Logo from "./Logo";
 //
 // import socket from "../DAL/socket";
 
@@ -55,10 +56,14 @@ function ChatContainer() {
       {/* ****** */}
       {/* Header */}
       {/* ****** */}
+
       <div className="chat-header d-flex justify-content-between align-items-center">
-        <div className="left-side">
-          <i className="bi bi-chat p-1"></i>
-          <span className="">Chatee</span>
+        <div className="room-name">
+          <p>
+            <i className="bi bi-chat-dots-fill"></i>
+            <i className="bi bi-chat-dots-fill "></i>
+            {room}
+          </p>
         </div>
         <button className="" onClick={() => history.goBack()}>
           Leave Room
@@ -71,14 +76,6 @@ function ChatContainer() {
 
       <div className="chat-main">
         <div className="side-bar">
-          <div className="room-name">
-            <h5>
-              <i className="bi bi-chat-dots-fill"></i>
-              <i className="bi bi-chat-dots-fill "></i>
-              Room:
-            </h5>
-            <p>{room}</p>
-          </div>
           <div className="users-in-room ">
             <h5>
               <i className="bi bi-people"></i> Users

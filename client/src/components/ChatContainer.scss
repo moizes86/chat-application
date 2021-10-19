@@ -5,7 +5,6 @@
   grid-template-rows: 80px auto 80px;
   height: 100%;
 
-
   .chat-header {
     .left-side {
       font-size: 2rem;
@@ -14,17 +13,7 @@
     }
   }
 
-  .chat-main {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-  overflow-y: scroll;
-
-
-    .side-bar {
-      background-color: $color-blue-500;
-      padding: 20px;
-
-      .room-name {
+   .room-name {
         i {
           color: $color-blue-900;
         }
@@ -39,21 +28,35 @@
           }
         }
       }
+
+  .chat-main {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    overflow-y: hidden;
+
+    .side-bar {
+      background-color: $color-blue-500;
+      padding: 20px;
     }
 
     .chat {
       padding: 20px;
       border-right: 10px solid $color-blue-700;
-      display:flex;
+      display: flex;
       flex-direction: column;
+      overflow-y: scroll;
     }
+
+   
+    
   }
 
   .chat-bottom {
     display: flex;
     align-items: center;
 
-    .form-control:focus, .form-control:not(:focus){
+    .form-control:focus,
+    .form-control:not(:focus) {
       border: none;
       box-shadow: none;
     }

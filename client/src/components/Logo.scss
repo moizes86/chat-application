@@ -1,0 +1,7 @@
+@import "../styles.scss";
+
+.logo {
+  &:hover {
+    @include hover-effect;
+  }
+}

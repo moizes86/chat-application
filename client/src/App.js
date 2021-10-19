@@ -10,9 +10,10 @@ import Login from "./pages/Login";
 import JoinChat from "./pages/JoinChat";
 import ChatContainer from "./components/ChatContainer";
 import PrivateRoute from "./PrivateRoute";
+import MyNavbar from "./components/MyNavbar";
+import Manage from "./pages/Manage";
 //
 import "./App.scss";
-
 
 function App() {
   const dispatch = useDispatch();
@@ -21,20 +22,26 @@ function App() {
   useEffect(() => {}, [dispatch, currentUser]);
 
   return (
-    <div className="App container">
-      <Route exact path={["/", "/login"]}>
-        {currentUser ? <Redirect to="/chat" /> : <Login />}
-      </Route>
-      <Route path="/verify-account/:email">
-        <VerifyAccount />
-      </Route>
-      <Route exact path="/signup">
-        <Signup />
-      </Route>
-      <PrivateRoute path="/chat" component={JoinChat} authed={currentUser !== null} />
+    <>
+      <MyNavbar />
+      <div className="App container">
+        <Route exact path={["/", "/login"]}>
+          {currentUser ? <Redirect to="/chat" /> : <Login />}
+        </Route>
 
-      <PrivateRoute path="/chat/room/:room" component={ChatContainer} authed={currentUser !== null} />
-    </div>
+        <Route path="/verify-account/:email">
+          <VerifyAccount />
+        </Route>
+
+        <Route exact path="/signup">
+          <Signup />
+        </Route>
+
+        <PrivateRoute path="/chat" component={JoinChat} authed={currentUser !== null} />
+        <PrivateRoute path="/chat/room/:room" component={ChatContainer} authed={currentUser !== null} />
+        <PrivateRoute path="/manage" component={Manage} authed={currentUser?.username === "Admin"} />
+      </div>
+    </>
   );
 }
 

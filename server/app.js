@@ -13,11 +13,11 @@ const mongoose = require("mongoose");
 var logger = require("morgan");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const apiRouter = require("./routes/api");
 const Room = require("./models/room.model");
 const Message = require("./models/message.model");
-// const { socketHandler } = require("./utils/socketHandler");
 
-const { userJoin, userLeave, getRoomUsers, getPreviousMessages } = require("./utils/users");
+const { userJoin, userLeave, getRoomUsers, getPreviousMessages } = require("./utils/socket");
 
 app.use(logger("dev"));
 app.use(express.static(path.join(__dirname, "public")));
@@ -33,6 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/api", apiRouter);
 
 dotenv.config();
 mongoose
@@ -44,6 +45,12 @@ mongoose
 server.listen(port, () => {
   console.log(`Server connected. Listening at http://localhost:${port}`);
 });
+
+
+
+// * * * * * * *
+// SOCKET
+// * * * * * * *
 
 io.on("connect", (socket) => {
   // Get Rooms List
@@ -106,9 +113,3 @@ io.on("connect", (socket) => {
     }
   });
 });
-
-// const onConnection = (socket) => {
-//   socketHandler(io, socket);
-// };
-
-// io.on("connect", onConnection);
