@@ -11,9 +11,13 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 var logger = require("morgan");
+
+// Routes
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const apiRouter = require("./routes/api");
+
+// Models
 const Room = require("./models/room.model");
 const Message = require("./models/message.model");
 
