@@ -1,19 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 //
-import { useSelector, useDispatch } from "react-redux";
-import { onGetUsers } from "../redux/manage/manage.actions";
-import { asyncOnGetUsers } from "../redux/manage/manage.utils";
-//
+import { Link, useLocation } from "react-router-dom";
 
 export default function Manage() {
-  const dispatch = useDispatch();
-  const { fetchError, users } = useSelector((state) => state.manage);
+  const location = useLocation();
 
-  // Get users
-  useEffect(() => {
-    dispatch(asyncOnGetUsers());
-  },[dispatch]);
-  return <div className="manage"></div>;
+  return (
+    <div className="manage">
+      <h4 className="mb-4">Manager</h4>
+      <p>
+        <Link to={`${location.pathname}/users`}>Users</Link>
+      </p>
+      <p>
+        <Link to={`${location.pathname}/messages`}>Messages</Link>
+      </p>
+      <p>
+        <Link to={`${location.pathname}/rooms`}>Rooms</Link>
+      </p>
+    </div>
+  );
 }
 
 // get and delete users and all their messages

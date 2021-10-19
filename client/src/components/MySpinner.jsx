@@ -1,7 +1,7 @@
 import React from "react";
-import './Spinner.scss';
+import './MySpinner.scss';
 
-function Spinner() {
+function MySpinner() {
   return (
     <div className="spinner-container d-flex justify-content-center">
       <div className="spinner spinner-border " role="status">
@@ -10,4 +10,4 @@ function Spinner() {
   );
 }
 
-export default Spinner;
+export default MySpinner;

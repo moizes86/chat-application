@@ -1,0 +1,9 @@
+@import "../styles.scss";
+
+.users-table {
+  .clickable-user-row {
+    &:hover {
+      @include hover-effect;
+    }
+  }
+}

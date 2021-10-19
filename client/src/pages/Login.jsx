@@ -23,7 +23,7 @@ function Login() {
   const { values, validationErrors, handleBlur, handleChange, setValues, validateForm } = useForm();
 
   //Handle async requests
-  const { data, requestError, loading, sendRequest, Spinner } = useFetch();
+  const { data, requestError, loading, sendRequest, MySpinner } = useFetch();
 
   const dispatch = useDispatch();
 
@@ -51,7 +51,7 @@ function Login() {
   return (
     <div className="login custom-form">
       <h3>Login</h3>
-      {loading && <Spinner />}
+      {loading && <MySpinner />}
       <form onSubmit={onSubmitLogin}>
         <InputField
           inputType="email"

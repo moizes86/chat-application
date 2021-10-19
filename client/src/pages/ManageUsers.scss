@@ -1,0 +1,10 @@
+@import "../styles.scss";
+
+.manage-users {
+  @include input-remove-glow-on-focus;
+
+  .input-group {
+    width: 100%;
+    position: relative;
+  }
+}

@@ -13,6 +13,14 @@ $color-blue-900: #0d47a1;
   opacity: 0.7;
 }
 
+@mixin input-remove-glow-on-focus {
+ .form-control:focus,
+    .form-control:not(:focus) {
+      transition: none;
+      box-shadow: none;
+    }
+}
+
 .pointer {
   cursor: pointer;
 }

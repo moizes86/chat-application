@@ -1,15 +1,20 @@
 import { httpService } from "../../DAL/httpService";
-import { onGetUsersSuccess, onGetUsersFailure } from "./manage.actions";
+import {
+  onQueryUsersStart,
+  onQueryUsersSuccess,
+  onQueryUsersFailure,
+} from "./manage.actions";
 
 const url = "http://localhost:3100/api";
 
-export const asyncOnGetUsers = () => {
+export const asyncOnQueryUsers = (query) => {
   return async (dispatch) => {
+    dispatch(onQueryUsersStart());
     try {
-      const users = await httpService("get", `${url}/users`);
-      dispatch(onGetUsersSuccess(users));
+      const result = await httpService("get", `${url}/users?query=${query}`);
+      dispatch(onQueryUsersSuccess(result.data.users));
     } catch (err) {
-      dispatch(onGetUsersFailure(err.message));
+      dispatch(onQueryUsersFailure(err.message));
     }
   };
 };

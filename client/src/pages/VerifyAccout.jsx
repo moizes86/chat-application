@@ -17,7 +17,7 @@ import SendEmailVerification from "../components/SendEmailVerification";
 function VerifyAccount() {
   const { email } = useParams();
   const { values, validationErrors, handleChange, setValues, validateForm } = useForm();
-  const { loading, requestError, data, sendRequest, Spinner } = useFetch();
+  const { loading, requestError, data, sendRequest, MySpinner } = useFetch();
 
   useEffect(() => {
     setValues({ email, verificationCode: "" });
@@ -36,7 +36,7 @@ function VerifyAccount() {
 
   return (
     <div className="verify-account custom-form pt-5">
-      {loading && <Spinner />}
+      {loading && <MySpinner />}
       <form onSubmit={onSubmitVerify}>
         <InputField
           inputType="number"

@@ -1,5 +1,4 @@
 import { ManageActionTypes } from "./manage.types";
-import { asyncOnGetUsers } from "./manage.utils";
 
 const INITIAL_STATE = {
   loading: false,
@@ -9,24 +8,24 @@ const INITIAL_STATE = {
 
 const manageReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ManageActionTypes.ON_GET_USERS:
+    case ManageActionTypes.ON_QUERY_USERS_START:
       return {
         ...state,
         loading: true,
       };
 
-    case ManageActionTypes.ON_GET_USERS_SUCCESS:
+    case ManageActionTypes.ON_QUERY_USERS_SUCCESS:
       return {
         ...state,
         users: action.payload,
         loading: false,
       };
 
-    case ManageActionTypes.ON_GET_USERS_FAILURE:
+    case ManageActionTypes.ON_QUERY_USERS_FAILURE:
       return {
         ...state,
-        loading: false,
         fetchError: action.payload,
+        loading: false,
       };
 
     default:

@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import Spinner from "../components/Spinner";
+import MySpinner from "../components/MySpinner";
 
 const useFetch = () => {
   const [data, setData] = useState(null);
@@ -22,7 +22,7 @@ const useFetch = () => {
     loading,
     requestError,
     data,
-    Spinner,
+    MySpinner,
     sendRequest,
   };
 };

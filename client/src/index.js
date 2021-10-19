@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 //Styles
 import "./index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
 //
 import App from "./App";
 // Redux

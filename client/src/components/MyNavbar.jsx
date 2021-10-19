@@ -30,7 +30,16 @@ const MyNavbar = () => {
         </button>
         <div className={`navbar-collapse ${collapsed && "collapse"}`} id="navbarSupportedContent">
           <ul className="navbar-nav justify-content-end w-100" onClick={() => setCollapsed(true)}>
-            {currentUser?.username === "Admin" && <li className="nav-link" onClick={()=>history.push('/manage')}>Manage</li>}
+            {currentUser?.username === "Admin" && (
+              <>
+              <li className="nav-link" onClick={() => history.push("/manage")}>
+                Manage
+              </li>
+              <li className="nav-link" onClick={() => history.push("/chat")}>
+                Chat
+              </li>
+              </>
+            )}
 
             {currentUser && (
               <div className="d-md-flex ml-md-auto">

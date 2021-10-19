@@ -26,7 +26,7 @@ const defaultValues = {
 
 function Signup() {
   const { values, validationErrors, handleBlur, handleChange, setValues, validateForm } = useForm();
-  const { data, requestError, loading, sendRequest, Spinner } = useFetch();
+  const { data, requestError, loading, sendRequest, MySpinner } = useFetch();
 
   useEffect(() => {
     setValues(defaultValues);
@@ -55,7 +55,7 @@ function Signup() {
     <div className="signup custom-form">
       <h3>Signup</h3>
       <form onSubmit={onSubmitSignup}>
-        {loading && <Spinner />}
+        {loading && <MySpinner />}
         <InputField
           inputType="email"
           label="Email:"

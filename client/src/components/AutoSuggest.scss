@@ -1,0 +1,12 @@
+@import "../styles.scss";
+
+.auto-suggest {
+    position:absolute;
+    width: 100%;
+    top:0;
+  li {
+    &:hover {
+      @include hover-effect;
+    }
+  }
+}
