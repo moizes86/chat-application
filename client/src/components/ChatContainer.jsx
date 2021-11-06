@@ -13,6 +13,7 @@ import ChatMessage from "./ChatMessage";
 //
 import "./ChatContainer.scss";
 import Logo from "./Logo";
+import ManageMessages from "../pages/ManageMessages";
 //
 // import socket from "../DAL/socket";
 
@@ -92,6 +93,7 @@ function ChatContainer() {
               currentUser={currentUser}
               text={message.text}
               user={message.user}
+              time = {message.date}
               botMessage={message.botMessage}
             />
           ))}

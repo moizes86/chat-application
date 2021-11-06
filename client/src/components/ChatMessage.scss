@@ -8,7 +8,19 @@
   .msg-details {
     color: $color-blue-50;
     margin-bottom: 0;
-    font-size: smaller;
+    font-size: small;
+    display: flex;
+    justify-content: space-between;
+
+    .username {
+      margin-right: 30px;
+    }
+
+    p {
+      margin-bottom: 0;
+      text-align: end;
+      font-size: 10px;
+    }
   }
 
   .msg-content {
@@ -23,14 +35,12 @@
   .msg-details {
     color: $color-blue-100;
   }
-
-  
 }
 
-.bot-message{
-    align-self: center;
-      font-size: 0.8rem;
-      background-color: transparent;
-      background-color: $color-blue-100;
-      opacity: 0.8;
-  }
+.bot-message {
+  align-self: center;
+  font-size: 0.8rem;
+  background-color: transparent;
+  background-color: $color-blue-100;
+  opacity: 0.8;
+}
