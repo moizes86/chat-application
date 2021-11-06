@@ -40,17 +40,15 @@ app.use("/users", usersRouter);
 app.use("/api", apiRouter);
 
 dotenv.config();
-mongoose
-  .connect(process.env.DB_ACCESS, () =>
-    console.log(mongoose.connection.readyState === 1 ? "MongoDB Connected" : "Error connecting to database")
-  )
-  .catch((err) => console.log(err));
-
-server.listen(port, () => {
-  console.log(`Server connected. Listening at http://localhost:${port}`);
+mongoose.connect(process.env.DB_ACCESS, () => {
+  if (mongoose.connection.readyState === 1) {
+    server.listen(port, () => {
+      console.log(`DB connected. Server connected. Listening at http://localhost:${port}`);
+    });
+  } else {
+    console.log("Error connecting to database");
+  }
 });
-
-
 
 // * * * * * * *
 // SOCKET
@@ -66,7 +64,7 @@ io.on("connect", (socket) => {
   const botName = "Admin";
 
   // ** ON JOIN ROOM **
-  socket.on("join-room",  async ({ currentUser: { email, username }, room }) => {
+  socket.on("join-room", async ({ currentUser: { email, username }, room }) => {
     const user = userJoin(socket.id, email, username, room);
     const previousMessages = await getPreviousMessages(room);
 
@@ -74,7 +72,7 @@ io.on("connect", (socket) => {
 
     // Send room's previous messages
     socket.emit("previous-messages", previousMessages);
-    
+
     // Welcome current user
     socket.emit("message", { user: botName, text: `Welcome to room ${user.room}`, botMessage: true });
 
@@ -85,19 +83,18 @@ io.on("connect", (socket) => {
 
     // Send users and room info
     io.to(user.room).emit("room-users", getRoomUsers(user.room));
-
   });
   // ** END ON JOIN ROOM**
 
   // Listen for chatMessage
-  socket.on("chatMessage", async({ room, currentUser, message }) => {
+  socket.on("chatMessage", async ({ room, currentUser, message }) => {
     io.to(room).emit("message", { user: currentUser, text: message });
 
     // Save message to db
-    const docMessage = new Message({ text: message, user: currentUser, room});
-    await docMessage.save((err, doc)=>{
-      if(err) return console.log(err)
-    })
+    const docMessage = new Message({ text: message, user: currentUser, room });
+    await docMessage.save((err, doc) => {
+      if (err) return console.log(err);
+    });
   });
 
   // Runs when client disconnects
